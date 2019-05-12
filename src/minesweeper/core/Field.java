@@ -110,12 +110,12 @@ public class Field {
                 state = GameState.FAILED;
             }
 
-            else if (isSolved()) {
-                state = GameState.SOLVED;
-            }
-
             else if (countAdjacentMines(row, column) == 0) {
                 openAdjacentTiles(row, column);
+            }
+
+            if (isSolved()) {
+                state = GameState.SOLVED;
             }
         }
     }
