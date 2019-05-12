@@ -95,7 +95,7 @@ public class Field {
     }
 
     /**
-     * Opens tile at specified indeces.
+     * Opens tile at specified indexes.
      *
      * @param row    row number
      * @param column column number
@@ -108,29 +108,31 @@ public class Field {
 
             if (tile instanceof Mine) {
                 state = GameState.FAILED;
-                return;
             }
 
-            if (isSolved()) {
+            else if (isSolved()) {
                 state = GameState.SOLVED;
+            }
+
+            else if (countAdjacentMines(row, column) == 0) {
+                openAdjacentTiles(row, column);
             }
         }
     }
 
     /**
-     * Marks tile at specified indeces.
+     * Marks tile at specified indexes.
      *
      * @param row    row number
      * @param column column number
      */
     public void markTile(int row, int column) {
         final Tile tile = tiles[row][column];
-        Tile.State tileState = tile.getState();
 
-        if (tileState == Tile.State.CLOSED)
+        if (tile.getState() == Tile.State.CLOSED)
             tile.setState(Tile.State.MARKED);
 
-        else if (tileState == Tile.State.MARKED)
+        else if (tile.getState() == Tile.State.MARKED)
             tile.setState(Tile.State.CLOSED);
     }
 
@@ -187,11 +189,7 @@ public class Field {
         int allTilesCount = rowCount * columnCount;
         int remainingTilesCount = allTilesCount - getNumberOf(Tile.State.OPEN);
 
-        if (remainingTilesCount == mineCount) {
-            return true;
-        }
-
-        return false;
+        return (remainingTilesCount == mineCount);
     }
 
     /**
@@ -239,5 +237,25 @@ public class Field {
         }
 
         return count;
+    }
+
+    /**
+     * Open adjacent tiles for a tile at specified position in the field
+     *
+     * @param row row number
+     * @param column column number
+     */
+    private void openAdjacentTiles(int row, int column) {
+        for (int rowOffset = -1; rowOffset <= 1; rowOffset++) {
+            int actRow = row + rowOffset;
+            if (actRow >= 0 && actRow < rowCount) {
+                for (int columnOffset = -1; columnOffset <= 1; columnOffset++) {
+                    int actColumn = column + columnOffset;
+                    if (actColumn >= 0 && actColumn < columnCount) {
+                        openTile(actRow, actColumn);
+                    }
+                }
+            }
+        }
     }
 }

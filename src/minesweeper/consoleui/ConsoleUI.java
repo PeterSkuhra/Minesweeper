@@ -1,13 +1,14 @@
 package minesweeper.consoleui;
 
-import minesweeper.core.Clue;
-import minesweeper.core.Field;
-import minesweeper.core.Mine;
-import minesweeper.core.Tile;
+import minesweeper.core.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Console user interface.
@@ -48,7 +49,16 @@ public class ConsoleUI implements minesweeper.IUserInterface {
         do {
             update();
             processInput();
-            throw new UnsupportedOperationException("Resolve the game state - winning or loosing condition.");
+
+            if (field.getState() == GameState.SOLVED) {
+                System.out.println("\n\t\t!!!VICTORY!!!\n");
+                System.exit(0);
+            }
+
+            else if (field.getState() == GameState.FAILED) {
+                System.out.println("\n\t\tDEFEAT!\n");
+                System.exit(0);
+            }
         } while (true);
     }
 
@@ -59,7 +69,7 @@ public class ConsoleUI implements minesweeper.IUserInterface {
     public void update() {
 
         // Print num of columns
-        System.out.printf("\t");
+        System.out.printf("%C3", ' ');
         for (int i = 0; i < field.getColumnCount(); ++i) {
             System.out.printf("%d3", i);
         }
@@ -72,29 +82,9 @@ public class ConsoleUI implements minesweeper.IUserInterface {
                 Tile tile = field.getTile(i, j);
                 Tile.State state = tile.getState();
 
-                switch (state) {
-                    case CLOSED:
-                        System.out.printf("%C3", '-');
-                        break;
-
-                    case MARKED:
-                        System.out.printf("%C3", 'M');
-                        break;
-
-                    case OPEN:
-                        if (tile instanceof Mine) {
-                            System.out.printf("%C3", 'X');
-                            break;
-                        }
-                        else if (tile instanceof Clue){
-                            System.out.printf("%d3", ((Clue) tile).getValue());
-                        }
-                }
-
+                printStateChar(tile, state);
             }
         }
-
-        printSelection();
     }
 
     /**
@@ -102,17 +92,75 @@ public class ConsoleUI implements minesweeper.IUserInterface {
      * Reads line from console and does the action on a playing field according to input string.
      */
     private void processInput() {
-        throw new UnsupportedOperationException("Method processInput not yet implemented");
+
+        printMenu();
+        String userRequest = readLine();
+        Pattern pattern = Pattern.compile("O([A-I])([0-8])");
+        Matcher matcher = pattern.matcher(userRequest);
+
+        while (!matcher.matches()) {
+            System.out.println("Wrong input! Try again...");
+            userRequest = readLine();
+            matcher = pattern.matcher(userRequest);
+        }
+
+        String operation = matcher.group(1);
+        int row = Integer.parseInt(matcher.group(2));
+        int column = Integer.parseInt(matcher.group(3));
+
+        switch (operation) {
+            case "o":
+            case "O":
+                field.openTile(row, column);
+                break;
+
+            case "m":
+            case "M":
+                field.markTile(row, column);
+                break;
+
+            case "x":
+            case "X":
+                System.exit(0);
+        }
+    }
+
+    /**
+     * Prints the selected tile character according to its state
+     *
+     * @param tile  selected tile
+     * @param state state of tile
+     */
+    private void printStateChar(Tile tile, Tile.State state) {
+        switch (state) {
+            case CLOSED:
+                System.out.printf("%C3", '-');
+                break;
+
+            case MARKED:
+                System.out.printf("%C3", 'M');
+                break;
+
+            case OPEN:
+                if (tile instanceof Mine) {
+                    System.out.printf("%C3", 'X');
+                    break;
+                }
+                else if (tile instanceof Clue) {
+                    System.out.printf("%d3", ((Clue) tile).getValue());
+                }
+        }
     }
 
     /**
      * Print possible selections for user
      */
-    private void printSelection() {
+    private void printMenu() {
         System.out.print("\nPlease enter your selection ");
         System.out.print("(X) EXIT ");
         System.out.print("(MA1) MARK ");
         System.out.print("(OB4) OPEN ");
-        System.out.println(":");
+        System.out.print(":\t");
     }
 }
+
