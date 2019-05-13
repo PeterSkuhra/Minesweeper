@@ -34,14 +34,23 @@ public class Minesweeper {
     private BestTimes bestTimes;
 
     /**
+     * Settings object
+     */
+    private Settings settings;
+
+    /**
      * Constructor.
      */
     private Minesweeper() {
         instance = this;
 
         userInterface = new ConsoleUI();
+        settings = Settings.load();
 
-        field = new Field(9, 9, 10);
+        field = new Field(settings.getRowCount(),
+                settings.getColumnCount(),
+                settings.getMineCount());
+
         stopwatch = new Stopwatch();
         bestTimes = new BestTimes();
     }
@@ -79,6 +88,25 @@ public class Minesweeper {
      */
     public BestTimes getBestTimes() {
         return bestTimes;
+    }
+
+    /**
+     * Returns object of Settings class.
+     *
+     * @return object of Settings class
+     */
+    public Settings getSettings() {
+        return settings;
+    }
+
+    /**
+     * Set object of Settings class to specified setting.
+     *
+     * @param settings specified setting
+     */
+    public void setSettings(Settings settings) {
+        this.settings = settings;
+        settings.save();
     }
 
     /**
