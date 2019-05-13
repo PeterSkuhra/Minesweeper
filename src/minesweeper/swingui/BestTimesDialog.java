@@ -17,6 +17,7 @@ public class BestTimesDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
+        textArea1 = new javax.swing.JTextArea();
         textArea1.setText(Minesweeper.getInstance().getBestTimes().toString());
 
         buttonOK.addActionListener(new ActionListener() {

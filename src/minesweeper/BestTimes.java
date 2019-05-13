@@ -26,6 +26,7 @@ public class BestTimes implements Iterable<BestTimes.PlayerTime> {
      *
      * @return a string representation of the object
      */
+    @Override
     public String toString() {
         String s = "";
         Formatter formatter = new Formatter();

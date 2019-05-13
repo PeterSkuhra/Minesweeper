@@ -17,8 +17,8 @@ public class Minesweeper {
     /**
      * Default user interface
      */
-    private static final String DEFAULT_UI = "console";
-    // private static final String DEFAULT_UI = "swing";
+    //private static final String DEFAULT_UI = "console";
+    private static final String DEFAULT_UI = "swing";
 
     /**
      * User interface.
@@ -84,6 +84,10 @@ public class Minesweeper {
      * @return single instance of Minesweeper
      */
     public static Minesweeper getInstance() {
+        if (instance == null) {
+            instance = new Minesweeper();
+        }
+
         return instance;
     }
 
@@ -142,6 +146,6 @@ public class Minesweeper {
      * @param args arguments
      */
     public static void main(String[] args) {
-       Minesweeper.getInstance().newGame();
+        Minesweeper.getInstance().newGame();
     }
 }

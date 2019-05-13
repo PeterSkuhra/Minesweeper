@@ -1,6 +1,5 @@
 package minesweeper.swingui;
 
-import minesweeper.BestTimes;
 import minesweeper.IUserInterface;
 import minesweeper.Minesweeper;
 import minesweeper.Settings;
@@ -23,6 +22,8 @@ public class SwingUI extends javax.swing.JFrame
      */
     private Field field;
 
+    private BestTimesDialog bestTimesDialog;
+
     /**
      * Constructor.
      */
@@ -34,6 +35,7 @@ public class SwingUI extends javax.swing.JFrame
         }
 
         initComponents();
+        bestTimesDialog = new BestTimesDialog();
 
         setIconImage(new javax.swing.ImageIcon(
                 getClass().getResource("/img/logo.gif")).getImage());
@@ -419,6 +421,4 @@ public class SwingUI extends javax.swing.JFrame
     private javax.swing.JLabel timeLabel;
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
-
-    private BestTimesDialog bestTimesDialog;
 }
