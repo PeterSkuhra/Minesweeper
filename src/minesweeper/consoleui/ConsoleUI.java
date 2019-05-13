@@ -20,7 +20,17 @@ public class ConsoleUI implements minesweeper.IUserInterface {
     /**
      * Input reader.
      */
-    private BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader input;
+
+    /**
+     * Pattern of regular expresion.
+     */
+    private Pattern pattern;
+
+    /**
+     * Matcher for regular expresion.
+     */
+    private Matcher matcher;
 
     /**
      * Reads line of text from the reader.
@@ -33,6 +43,15 @@ public class ConsoleUI implements minesweeper.IUserInterface {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    /**
+     * Constructor.
+     */
+    public ConsoleUI() {
+        input = new BufferedReader(new InputStreamReader(System.in));
+
+        pattern = Pattern.compile("([oO]|[mM])([a-iA-I])([0-8])");
     }
 
     /**
@@ -55,11 +74,13 @@ public class ConsoleUI implements minesweeper.IUserInterface {
 
             else if (field.getState() == GameState.FAILED) {
                 System.out.println("\n\t\tDEFEAT!\n");
+                // TODO: show all mines
                 break;
             }
         } while (true);
 
         update();
+        System.exit(0);
     }
 
     /**
@@ -69,7 +90,7 @@ public class ConsoleUI implements minesweeper.IUserInterface {
     public void update() {
 
         // Print num of columns
-        System.out.printf("%3C", ' ');
+        System.out.printf("\n%3C", ' ');
         for (int i = 0; i < field.getColumnCount(); ++i) {
             System.out.printf("%3d", i);
         }
@@ -87,18 +108,21 @@ public class ConsoleUI implements minesweeper.IUserInterface {
             }
             System.out.println();
         }
+
+        System.out.println("\n\tRemaining mines: " + field.getRemainingMineCount());
     }
 
     /**
      * Processes user input.
-     * Reads line from console and does the action on a playing field according to input string.
+     * Reads line from console and does the action on a playing field
+     * according to input string.
      */
     private void processInput() {
-
         printMenu();
+
         String userRequest = readLine();
-        Pattern pattern = Pattern.compile("([oO]|[mM])([a-iA-I])([0-8])");
-        Matcher matcher = pattern.matcher(userRequest);
+
+        matcher = pattern.matcher(userRequest);
 
         while (!matcher.matches()) {
             System.out.println("Wrong input! Try again...");
@@ -125,7 +149,7 @@ public class ConsoleUI implements minesweeper.IUserInterface {
     }
 
     /**
-     * Prints the selected tile character according to its state
+     * Prints the selected tile character according to its state.
      *
      * @param tile  selected tile
      * @param state state of tile
@@ -152,7 +176,7 @@ public class ConsoleUI implements minesweeper.IUserInterface {
     }
 
     /**
-     * Print possible selections for user
+     * Print possible selections for user.
      */
     private void printMenu() {
         System.out.print("\nPlease enter your selection ");

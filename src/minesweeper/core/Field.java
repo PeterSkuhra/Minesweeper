@@ -108,6 +108,7 @@ public class Field {
 
             if (tile instanceof Mine) {
                 state = GameState.FAILED;
+                return;
             }
 
             else if (countAdjacentMines(row, column) == 0) {
@@ -134,6 +135,17 @@ public class Field {
 
         else if (tile.getState() == Tile.State.MARKED)
             tile.setState(Tile.State.CLOSED);
+    }
+
+    /**
+     * Returns count of remaining mines in field
+     *
+     * @return  remaining mine count
+     */
+    public int getRemainingMineCount() {
+        int markedTilesCount = getNumberOf(Tile.State.MARKED);
+
+        return mineCount - markedTilesCount;
     }
 
     /**
