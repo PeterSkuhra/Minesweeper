@@ -2,6 +2,7 @@ package minesweeper;
 
 import minesweeper.consoleui.ConsoleUI;
 import minesweeper.core.Field;
+import minesweeper.swingui.SwingUI;
 
 /**
  * Main application class.
@@ -12,6 +13,12 @@ public class Minesweeper {
      * Single instance of Minesweeper
      */
     private static Minesweeper instance;
+
+    /**
+     * Default user interface
+     */
+    private static final String DEFAULT_UI = "console";
+    // private static final String DEFAULT_UI = "swing";
 
     /**
      * User interface.
@@ -36,7 +43,7 @@ public class Minesweeper {
     /**
      * Settings object
      */
-    private Settings settings;
+    private Settings setting;
 
     /**
      * Constructor.
@@ -44,15 +51,31 @@ public class Minesweeper {
     private Minesweeper() {
         instance = this;
 
-        userInterface = new ConsoleUI();
-        settings = Settings.load();
+        //setting = Settings.load();
+        setting = Settings.BEGINNER; //TODO: fix load !!!
 
-        field = new Field(settings.getRowCount(),
-                settings.getColumnCount(),
-                settings.getMineCount());
-
-        stopwatch = new Stopwatch();
+        userInterface = create(DEFAULT_UI);
         bestTimes = new BestTimes();
+        stopwatch = new Stopwatch();
+    }
+
+    /**
+     * Create user interface to specified name
+     *
+     * @param name name of user interface
+     * @return user interface
+     */
+    private IUserInterface create(String name) {
+        switch(name) {
+            case "swing":
+                return new SwingUI();
+
+            case "console":
+                return new ConsoleUI();
+
+            default:
+                throw new RuntimeException("No valid UI specified");
+        }
     }
 
     /**
@@ -65,11 +88,15 @@ public class Minesweeper {
     }
 
     /**
-     * Run method.
+     * Starts new game
      */
-    private void run() {
-        userInterface.newGameStarted(field);
+    public void newGame() {
+        field = new Field(setting.getRowCount(),
+                setting.getColumnCount(),
+                setting.getMineCount());
+
         stopwatch.start();
+        userInterface.newGameStarted(field);
     }
 
     /**
@@ -77,7 +104,7 @@ public class Minesweeper {
      *
      * @return playing seconds
      */
-    public long getPlayingSeconds() {
+    public int getPlayingSeconds() {
         return stopwatch.elapsedTimeSeconds();
     }
 
@@ -95,18 +122,18 @@ public class Minesweeper {
      *
      * @return object of Settings class
      */
-    public Settings getSettings() {
-        return settings;
+    public Settings getSetting() {
+        return setting;
     }
 
     /**
      * Set object of Settings class to specified setting.
      *
-     * @param settings specified setting
+     * @param setting specified setting
      */
-    public void setSettings(Settings settings) {
-        this.settings = settings;
-        settings.save();
+    public void setSetting(Settings setting) {
+        this.setting = setting;
+        setting.save();
     }
 
     /**
@@ -115,6 +142,6 @@ public class Minesweeper {
      * @param args arguments
      */
     public static void main(String[] args) {
-        new Minesweeper().run();
+       Minesweeper.getInstance().newGame();
     }
 }

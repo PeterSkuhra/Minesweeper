@@ -106,9 +106,9 @@ public class Settings implements Serializable {
         }
         catch (IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
-        }
 
-        return BEGINNER;
+            return BEGINNER;
+        }
     }
 
     /**

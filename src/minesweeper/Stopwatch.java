@@ -29,7 +29,7 @@ public class Stopwatch {
      *
      * @return elapsed time in secdonds
      */
-    public long elapsedTimeSeconds() {
-        return (System.currentTimeMillis() - startTime) / 1000;
+    public int elapsedTimeSeconds() {
+        return (int) ((System.currentTimeMillis() - startTime) / 1000);
     }
 }
