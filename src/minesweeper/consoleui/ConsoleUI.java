@@ -1,5 +1,6 @@
 package minesweeper.consoleui;
 
+import minesweeper.Minesweeper;
 import minesweeper.core.*;
 
 import java.io.BufferedReader;
@@ -109,7 +110,10 @@ public class ConsoleUI implements minesweeper.IUserInterface {
             System.out.println();
         }
 
-        System.out.println("\n\tRemaining mines: " + field.getRemainingMineCount());
+        System.out.println("\n\tRemaining mines: " +
+                field.getRemainingMineCount());
+        System.out.println("\tElapsed time: " +
+                Minesweeper.getInstance().getPlayingSeconds());
     }
 
     /**
