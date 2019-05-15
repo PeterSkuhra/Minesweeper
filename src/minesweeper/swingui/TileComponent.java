@@ -66,7 +66,7 @@ public class TileComponent extends JLabel {
         setOpaque(true);
         setBorder(javax.swing.BorderFactory.createBevelBorder(
                 javax.swing.border.BevelBorder.RAISED));
-        setPreferredSize(new Dimension(17, 17));
+        setPreferredSize(new Dimension(30, 30));
         setFont(new Font("Dialog", Font.BOLD, 11));
     }
 

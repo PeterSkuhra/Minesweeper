@@ -1,8 +1,9 @@
 package minesweeper;
 
 import minesweeper.consoleui.ConsoleUI;
-import minesweeper.core.Field;
 import minesweeper.swingui.SwingUI;
+import minesweeper.core.Field;
+
 
 /**
  * Main application class.
