@@ -5,6 +5,7 @@ import minesweeper.core.Mine;
 import minesweeper.core.Tile;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 
 /**
@@ -62,10 +63,10 @@ public class TileComponent extends JLabel {
         this.row = row;
         this.column = column;
 
-        setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        setHorizontalAlignment(SwingConstants.CENTER);
         setOpaque(true);
-        setBorder(javax.swing.BorderFactory.createBevelBorder(
-                javax.swing.border.BevelBorder.RAISED));
+        setBorder(BorderFactory.createBevelBorder(
+                BevelBorder.RAISED));
         setPreferredSize(new Dimension(30, 30));
         setFont(new Font("Dialog", Font.BOLD, 11));
     }
@@ -103,8 +104,8 @@ public class TileComponent extends JLabel {
     public void updateStyle() {
         switch (tile.getState()) {
             case OPEN:
-                setBorder(javax.swing.BorderFactory.createBevelBorder(
-                        javax.swing.border.BevelBorder.LOWERED));
+                setBorder(BorderFactory.createBevelBorder(
+                        BevelBorder.LOWERED));
 
                 if (tile instanceof Clue) {
                     Clue clue = (Clue) tile;

@@ -1,16 +1,30 @@
 package minesweeper.swingui;
 
 import minesweeper.IUserInterface;
+import minesweeper.Minesweeper;
 import minesweeper.core.Field;
+import minesweeper.core.GameState;
+import minesweeper.core.Tile;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 public class SwingUI extends JFrame implements IUserInterface {
 
     private Field field;
+
+    private JPanel contentPanel;
+    private JPanel infoPanel;
+    private JPanel fieldPanel;
+
+    private JPanel remainingMinesPanel;
+    private JLabel remainingMinesLabel;
+    private JPanel elapsedTimePanel;
+    private JLabel elapsedTimeLabel;
+    private JPanel newGameButtonPanel;
+    private JButton newGameButton;
 
     /**************************************************************************
      * MENU BAR
@@ -33,7 +47,7 @@ public class SwingUI extends JFrame implements IUserInterface {
      *************************************************************************/
     private JLabel statusBar;
 
-    private JPanel playingField;
+
 
     /**
      * Constructor
@@ -47,17 +61,26 @@ public class SwingUI extends JFrame implements IUserInterface {
      * Init all elements for GUI
      */
     private void initUI() {
+        contentPanel = new JPanel();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.setBorder(
+                BorderFactory.createBevelBorder(BevelBorder.RAISED));
+
+        getContentPane().add(contentPanel, BorderLayout.CENTER);
+
         setTitle("Minesweeper");
-        setSize(300, 400);
-        //pack();
+
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         createMenuBar();
         createStatusBar();
         createPlayingField();
+        createInfoPanel();
 
-        this.setVisible(true);
+        pack();
+        setResizable(false);
+        setVisible(true);
     }
 
     /**
@@ -120,18 +143,185 @@ public class SwingUI extends JFrame implements IUserInterface {
      *
      */
     private void createPlayingField() {
-        playingField = new JPanel();
+        fieldPanel = new JPanel();
 
-        playingField.setBorder(
+        fieldPanel.setBorder(
                 BorderFactory.createCompoundBorder(
                         BorderFactory.createEmptyBorder(
-                                3, 5, 5, 5),
+                                5, 5, 5, 5),
                         BorderFactory.createBevelBorder(
                                 BevelBorder.LOWERED)
                         )
                 );
 
-        getContentPane().add(playingField, BorderLayout.CENTER);
+        contentPanel.add(fieldPanel, BorderLayout.CENTER);
+    }
+
+    /**
+     *
+     */
+    private void createInfoPanel() {
+        infoPanel = new JPanel();
+        infoPanel.setLayout(new BorderLayout());
+        infoPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                javax.swing.BorderFactory.createEmptyBorder(
+                        5,5,5,5),
+                javax.swing.BorderFactory.createBevelBorder(
+                        javax.swing.border.BevelBorder.LOWERED)));
+
+        contentPanel.add(infoPanel, BorderLayout.NORTH);
+
+        createRemainingMinesPanel();
+        createElapsedTimePanel();
+        createNewGameButton();
+    }
+
+    /**
+     *
+     */
+    private void createRemainingMinesPanel() {
+        remainingMinesPanel = new JPanel();
+        remainingMinesPanel.setLayout(new BorderLayout());
+        remainingMinesPanel.setBorder(
+                BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        infoPanel.add(remainingMinesPanel, BorderLayout.WEST);
+
+        remainingMinesLabel = new JLabel();
+        remainingMinesLabel.setBackground(Color.black);
+        remainingMinesLabel.setFont(new Font("DialogInput", 1, 24));
+        remainingMinesLabel.setForeground(Color.GREEN);
+        remainingMinesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        remainingMinesLabel.setText("888");
+        remainingMinesLabel.setMaximumSize(new Dimension(50, 30));
+        remainingMinesLabel.setMinimumSize(new Dimension(50, 30));
+        remainingMinesLabel.setOpaque(true);
+        remainingMinesLabel.setPreferredSize(new Dimension(50, 30));
+
+        remainingMinesPanel.add(remainingMinesLabel, BorderLayout.CENTER);
+    }
+
+    /**
+     *
+     */
+    private void createElapsedTimePanel() {
+        elapsedTimePanel = new JPanel();
+        elapsedTimePanel.setLayout(new BorderLayout());
+        elapsedTimePanel.setBorder(BorderFactory.createBevelBorder(
+                BevelBorder.LOWERED));
+        infoPanel.add(elapsedTimePanel, BorderLayout.EAST);
+
+        elapsedTimeLabel = new JLabel();
+        elapsedTimeLabel.setBackground(Color.black);
+        elapsedTimeLabel.setFont(new Font("DialogInput", 1, 24));
+        elapsedTimeLabel.setForeground(Color.GREEN);
+        elapsedTimeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        elapsedTimeLabel.setText("888");
+        elapsedTimeLabel.setMaximumSize(new Dimension(50, 30));
+        elapsedTimeLabel.setMinimumSize(new Dimension(50, 30));
+        elapsedTimeLabel.setOpaque(true);
+        elapsedTimeLabel.setPreferredSize(new Dimension(50, 30));
+
+        elapsedTimePanel.add(elapsedTimeLabel, BorderLayout.CENTER);
+    }
+
+    /**
+     *
+     */
+    private void createNewGameButton() {
+        newGameButtonPanel = new JPanel();
+        newGameButtonPanel.setLayout(new BorderLayout());
+        newGameButtonPanel.setBorder(BorderFactory.createBevelBorder(
+                BevelBorder.LOWERED));
+        infoPanel.add(newGameButtonPanel, BorderLayout.CENTER);
+
+        newGameButton = new JButton();
+        newGameButton.setIcon(
+                new ImageIcon(getClass().getResource("/img/smile.gif")));
+        newGameButton.setFocusPainted(false);
+        newGameButton.setFocusable(false);
+        newGameButton.setMargin(new Insets(2,2,2,2));
+        newGameButton.setMaximumSize(new Dimension(50, 50));
+        newGameButton.setMinimumSize(new Dimension(50, 50));
+        newGameButton.setPreferredSize(new Dimension(50, 50));
+
+        newGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Minesweeper.getInstance().newGame();
+            }
+        });
+
+        newGameButtonPanel.add(newGameButton, BorderLayout.CENTER);
+    }
+
+    /**
+     *
+     *
+     * @return
+     */
+    private MouseListener createMouseListener() {
+        MouseListener mouseListener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                if (field.getState() == GameState.PLAYING) {
+                    TileComponent tileComponent;
+
+                    if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
+                        tileComponent = (TileComponent) mouseEvent.getSource();
+                        field.openTile(
+                                tileComponent.getRow(),
+                                tileComponent.getColumn());
+                        update();
+                    }
+
+                    if (SwingUtilities.isRightMouseButton(mouseEvent)) {
+                        tileComponent = (TileComponent) mouseEvent.getSource();
+                        field.markTile(
+                                tileComponent.getRow(),
+                                tileComponent.getColumn());
+                        update();
+                    }
+
+                    if (field.getState() == GameState.FAILED) {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "You lose!",
+                                "Defeat",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+
+                    else if (field.getState() == GameState.SOLVED) {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "You win",
+                                "Victory",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+
+            }
+        };
+
+        return mouseListener;
     }
 
     /**
@@ -143,13 +333,16 @@ public class SwingUI extends JFrame implements IUserInterface {
     public void newGameStarted(Field field) {
         this.field = field;
 
-        playingField.removeAll();
-        playingField.setLayout(
+        fieldPanel.removeAll();
+        fieldPanel.setLayout(
                 new GridLayout(field.getRowCount(), field.getColumnCount()));
 
         for (int i = 0; i < field.getRowCount(); ++i) {
             for (int j = 0; j < field.getColumnCount(); ++j) {
-                playingField.add(new TileComponent(field.getTile(i, j), i, j));
+                TileComponent tileComponent =
+                        new TileComponent(field.getTile(i, j), i, j);
+                fieldPanel.add(tileComponent);
+                tileComponent.addMouseListener(createMouseListener());
             }
         }
 
@@ -164,8 +357,8 @@ public class SwingUI extends JFrame implements IUserInterface {
     public void update() {
         TileComponent tileComponent;
 
-        for (int i = 0; i < playingField.getComponentCount(); ++i) {
-            tileComponent = (TileComponent) playingField.getComponent(i);
+        for (int i = 0; i < fieldPanel.getComponentCount(); ++i) {
+            tileComponent = (TileComponent) fieldPanel.getComponent(i);
             tileComponent.updateStyle();
         }
     }
