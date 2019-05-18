@@ -2,9 +2,9 @@ package minesweeper.swingui;
 
 import minesweeper.IUserInterface;
 import minesweeper.Minesweeper;
+import minesweeper.Settings;
 import minesweeper.core.Field;
 import minesweeper.core.GameState;
-import minesweeper.core.Tile;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -69,11 +69,13 @@ public class SwingUI extends JFrame implements IUserInterface {
         getContentPane().add(contentPanel, BorderLayout.CENTER);
 
         setTitle("Minesweeper");
+        setIconImage(new ImageIcon(
+                getClass().getResource("/img/logo.gif")).getImage());
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        createMenuBar();
+        createGameMenuBar();
         createStatusBar();
         createPlayingField();
         createInfoPanel();
@@ -86,7 +88,7 @@ public class SwingUI extends JFrame implements IUserInterface {
     /**
      * Create menu bar in main window
      */
-    private void createMenuBar() {
+    private void createGameMenuBar() {
         jMenuBar = new JMenuBar();
 
         gameMenu = new JMenu("Game");
@@ -128,6 +130,23 @@ public class SwingUI extends JFrame implements IUserInterface {
 
         jMenuBar.add(gameMenu);
         setJMenuBar(jMenuBar);
+
+        initDifficultyGroup();
+    }
+
+    /**
+     *
+     */
+    private void initDifficultyGroup() {
+        if (Minesweeper.getInstance().getSetting().equals(Settings.BEGINNER)) {
+            beginnerRadioButtonMenuItem.setSelected(true);
+        }
+        else if (Minesweeper.getInstance().getSetting().equals(Settings.INTERMEDIATE)) {
+            intermediateRadioButtonMenuItem.setSelected(true);
+        }
+        else if ((Minesweeper.getInstance().getSetting().equals(Settings.EXPERT))) {
+            expertRadioButtonMenuItem.setSelected(true);
+        }
     }
 
     /**
