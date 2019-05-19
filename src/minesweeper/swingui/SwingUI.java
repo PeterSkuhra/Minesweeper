@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Formatter;
 
 public class SwingUI extends JFrame implements IUserInterface {
 
@@ -21,6 +22,8 @@ public class SwingUI extends JFrame implements IUserInterface {
 
     private JPanel remainingMinesPanel;
     private JLabel remainingMinesLabel;
+
+    private Timer timer;
     private JPanel elapsedTimePanel;
     private JLabel elapsedTimeLabel;
     private JPanel newGameButtonPanel;
@@ -54,7 +57,6 @@ public class SwingUI extends JFrame implements IUserInterface {
      */
     public SwingUI() {
         initUI();
-
     }
 
     /**
@@ -248,7 +250,21 @@ public class SwingUI extends JFrame implements IUserInterface {
     /**
      *
      */
+    private void updateRemainingMinesLabel() {
+        StringBuilder stringBuilder = new StringBuilder();
+        new Formatter(stringBuilder).format(
+                "%03d",
+                field.getRemainingMineCount());
+
+        remainingMinesLabel.setText(stringBuilder.toString());
+    }
+
+    /**
+     *
+     */
     private void createElapsedTimePanel() {
+        initTimer();
+
         elapsedTimePanel = new JPanel();
         elapsedTimePanel.setLayout(new BorderLayout());
         elapsedTimePanel.setBorder(BorderFactory.createBevelBorder(
@@ -267,6 +283,35 @@ public class SwingUI extends JFrame implements IUserInterface {
         elapsedTimeLabel.setPreferredSize(new Dimension(50, 30));
 
         elapsedTimePanel.add(elapsedTimeLabel, BorderLayout.CENTER);
+    }
+
+    /**
+     *
+     */
+    private void initTimer() {
+        ActionListener actionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (field.getState() == GameState.PLAYING) {
+                    updateElapsedTimeLabel();
+                }
+            }
+        };
+
+        int delay = 100;
+        timer = new Timer(delay, actionListener);
+    }
+
+    /**
+     *
+     */
+    private void updateElapsedTimeLabel() {
+        StringBuilder stringBuilder = new StringBuilder();
+        new Formatter(stringBuilder).format(
+                "%03d",
+                Minesweeper.getInstance().getPlayingSeconds());
+
+        elapsedTimeLabel.setText(stringBuilder.toString());
     }
 
     /**
@@ -396,6 +441,8 @@ public class SwingUI extends JFrame implements IUserInterface {
 
         update();
         pack();
+
+        timer.start();
     }
 
     /**
@@ -413,6 +460,9 @@ public class SwingUI extends JFrame implements IUserInterface {
                 tileComponent.updateFailedStyle();
             }
         }
+
+        updateRemainingMinesLabel();
+        updateElapsedTimeLabel();
     }
 
 }

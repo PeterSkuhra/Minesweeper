@@ -130,6 +130,9 @@ public class TileComponent extends JLabel {
         }
     }
 
+    /**
+     *
+     */
     public void updateFailedStyle() {
         switch (tile.getState()) {
             case CLOSED:
@@ -140,6 +143,11 @@ public class TileComponent extends JLabel {
                     setIcon(MINE_ICON);
                 }
                 break;
+
+            case MARKED:
+                if (!(tile instanceof Mine)) {
+                    setBackground(Color.GREEN);
+                }
         }
     }
 }
