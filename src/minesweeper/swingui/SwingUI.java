@@ -96,15 +96,11 @@ public class SwingUI extends JFrame implements IUserInterface {
 
         newMenuItem = new JMenuItem("New");
         newMenuItem.setMnemonic(KeyEvent.VK_F);
+        newMenuItem.addActionListener(actionEvent -> {
+            Minesweeper.getInstance().newGame();
+        });
 
-        difficultyGroup = new ButtonGroup();
-        beginnerRadioButtonMenuItem =
-                new JRadioButtonMenuItem("Beginner");
-        beginnerRadioButtonMenuItem.setSelected(true);
-        intermediateRadioButtonMenuItem =
-                new JRadioButtonMenuItem("Intermediate");
-        expertRadioButtonMenuItem =
-                new JRadioButtonMenuItem("Expert");
+        createDifficultyGroup();
 
         bestTimesMenuItem = new JMenuItem("Best times");
         bestTimesMenuItem.setMnemonic(KeyEvent.VK_F);
@@ -112,7 +108,9 @@ public class SwingUI extends JFrame implements IUserInterface {
         exitMenuItem = new JMenuItem("Exit");
         exitMenuItem.setMnemonic(KeyEvent.VK_F);
         exitMenuItem.setToolTipText("Exit application");
-        exitMenuItem.addActionListener((event) -> System.exit(0));
+        exitMenuItem.addActionListener(actionEvent -> {
+            System.exit(0);
+        });
 
         gameMenu.add(newMenuItem);
         gameMenu.addSeparator();
@@ -124,20 +122,27 @@ public class SwingUI extends JFrame implements IUserInterface {
         gameMenu.addSeparator();
         gameMenu.add(exitMenuItem);
 
-        difficultyGroup.add(beginnerRadioButtonMenuItem);
-        difficultyGroup.add(intermediateRadioButtonMenuItem);
-        difficultyGroup.add(expertRadioButtonMenuItem);
-
         jMenuBar.add(gameMenu);
         setJMenuBar(jMenuBar);
-
-        initDifficultyGroup();
     }
 
     /**
      *
      */
-    private void initDifficultyGroup() {
+    private void createDifficultyGroup() {
+        difficultyGroup = new ButtonGroup();
+        beginnerRadioButtonMenuItem =
+                new JRadioButtonMenuItem("Beginner");
+        beginnerRadioButtonMenuItem.setSelected(true);
+        intermediateRadioButtonMenuItem =
+                new JRadioButtonMenuItem("Intermediate");
+        expertRadioButtonMenuItem =
+                new JRadioButtonMenuItem("Expert");
+
+        difficultyGroup.add(beginnerRadioButtonMenuItem);
+        difficultyGroup.add(intermediateRadioButtonMenuItem);
+        difficultyGroup.add(expertRadioButtonMenuItem);
+
         if (Minesweeper.getInstance().getSetting().equals(Settings.BEGINNER)) {
             beginnerRadioButtonMenuItem.setSelected(true);
         }
@@ -147,6 +152,27 @@ public class SwingUI extends JFrame implements IUserInterface {
         else if ((Minesweeper.getInstance().getSetting().equals(Settings.EXPERT))) {
             expertRadioButtonMenuItem.setSelected(true);
         }
+
+        beginnerRadioButtonMenuItem.addItemListener(itemEvent -> {
+            if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                Minesweeper.getInstance().setSetting(Settings.BEGINNER);
+                Minesweeper.getInstance().newGame();
+            }
+        });
+
+        intermediateRadioButtonMenuItem.addItemListener(itemEvent -> {
+            if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                Minesweeper.getInstance().setSetting(Settings.INTERMEDIATE);
+                Minesweeper.getInstance().newGame();
+            }
+        });
+
+        expertRadioButtonMenuItem.addItemListener(itemEvent -> {
+            if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                Minesweeper.getInstance().setSetting(Settings.EXPERT);
+                Minesweeper.getInstance().newGame();
+            }
+        });
     }
 
     /**
@@ -278,7 +304,7 @@ public class SwingUI extends JFrame implements IUserInterface {
      *
      * @return
      */
-    private MouseListener createMouseListener() {
+    private MouseListener createFieldMouseListener() {
         MouseListener mouseListener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
@@ -307,6 +333,8 @@ public class SwingUI extends JFrame implements IUserInterface {
                                 "You lose!",
                                 "Defeat",
                                 JOptionPane.INFORMATION_MESSAGE);
+
+                        Minesweeper.getInstance().newGame();
                     }
 
                     else if (field.getState() == GameState.SOLVED) {
@@ -315,6 +343,7 @@ public class SwingUI extends JFrame implements IUserInterface {
                                 "You win",
                                 "Victory",
                                 JOptionPane.INFORMATION_MESSAGE);
+                        Minesweeper.getInstance().newGame();
                     }
                 }
             }
@@ -361,7 +390,7 @@ public class SwingUI extends JFrame implements IUserInterface {
                 TileComponent tileComponent =
                         new TileComponent(field.getTile(i, j), i, j);
                 fieldPanel.add(tileComponent);
-                tileComponent.addMouseListener(createMouseListener());
+                tileComponent.addMouseListener(createFieldMouseListener());
             }
         }
 
@@ -379,6 +408,10 @@ public class SwingUI extends JFrame implements IUserInterface {
         for (int i = 0; i < fieldPanel.getComponentCount(); ++i) {
             tileComponent = (TileComponent) fieldPanel.getComponent(i);
             tileComponent.updateStyle();
+
+            if (field.getState() == GameState.FAILED) {
+                tileComponent.updateFailedStyle();
+            }
         }
     }
 

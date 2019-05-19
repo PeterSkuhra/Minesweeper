@@ -129,4 +129,17 @@ public class TileComponent extends JLabel {
                 break;
         }
     }
+
+    public void updateFailedStyle() {
+        switch (tile.getState()) {
+            case CLOSED:
+                if (tile instanceof Mine) {
+                    setBorder(BorderFactory.createBevelBorder(
+                            BevelBorder.LOWERED));
+                    setBackground(Color.ORANGE);
+                    setIcon(MINE_ICON);
+                }
+                break;
+        }
+    }
 }
