@@ -14,53 +14,121 @@ import java.util.Formatter;
 
 public class SwingUI extends JFrame implements IUserInterface {
 
+    /**
+     * Playing field.
+     */
     private Field field;
 
+    /**
+     * Panel for all components.
+     */
     private JPanel contentPanel;
+
+    /**
+     * Info panel.
+     */
     private JPanel infoPanel;
+
+    /**
+     * Panel for playing field.
+     */
     private JPanel fieldPanel;
 
+    /**
+     * Panel for reamining mines.
+     */
     private JPanel remainingMinesPanel;
+
+    /**
+     * Remaining mines label.
+     */
     private JLabel remainingMinesLabel;
 
+    /**
+     * Timer of game.
+     */
     private Timer timer;
+
+    /**
+     * Panel for elapsed time.
+     */
     private JPanel elapsedTimePanel;
+
+    /**
+     * Elapsed time label.
+     */
     private JLabel elapsedTimeLabel;
+
+    /**
+     * Panel for new game button.
+     */
     private JPanel newGameButtonPanel;
+
+    /**
+     * New game button.
+     */
     private JButton newGameButton;
 
-    /**************************************************************************
-     * MENU BAR
-     *************************************************************************/
+    /**
+     * Menu bar.
+     */
     private JMenuBar jMenuBar;
+
+    /**
+     * Game menu in menu bar.
+     */
     private JMenu gameMenu;
 
+    /**
+     * New menu item in game menu.
+     */
     private JMenuItem newMenuItem;
 
+    /**
+     * Difficulty group in game menu.
+     */
     private ButtonGroup difficultyGroup;
+
+    /**
+     * Beginner radio button in game menu.
+     */
     private JRadioButtonMenuItem beginnerRadioButtonMenuItem;
+
+    /**
+     * Intermediate radio button in game menu.
+     */
     private JRadioButtonMenuItem intermediateRadioButtonMenuItem;
+
+    /**
+     * Expert radio button in game menu.
+     */
     private JRadioButtonMenuItem expertRadioButtonMenuItem;
 
+    /**
+     * Best times item in game menu.
+     */
     private JMenuItem bestTimesMenuItem;
+
+    /**
+     * Exit game item in game menu.
+     */
     private JMenuItem exitMenuItem;
 
-    /**************************************************************************
-     * STATUS BAR
-     *************************************************************************/
-    private JLabel statusBar;
-
+    /**
+     * Progress bar of game.
+     */
+    private JProgressBar progressBar;
 
 
     /**
-     * Constructor
+     * Constructor.
      */
     public SwingUI() {
         initUI();
     }
 
     /**
-     * Init all elements for GUI
+     * Init all elements for GUI.
      */
     private void initUI() {
         contentPanel = new JPanel();
@@ -78,7 +146,7 @@ public class SwingUI extends JFrame implements IUserInterface {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         createGameMenuBar();
-        createStatusBar();
+        createProgressBar();
         createPlayingField();
         createInfoPanel();
 
@@ -88,7 +156,7 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
-     * Create menu bar in main window
+     * Creates menu bar in main window.
      */
     private void createGameMenuBar() {
         jMenuBar = new JMenuBar();
@@ -129,7 +197,7 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
-     *
+     * Creates difficulty group in menu.
      */
     private void createDifficultyGroup() {
         difficultyGroup = new ButtonGroup();
@@ -178,16 +246,7 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
-     *
-     */
-    private void createStatusBar() {
-        statusBar = new JLabel("Remaining mines:");
-        statusBar.setBorder(BorderFactory.createEtchedBorder());
-        add(statusBar, BorderLayout.SOUTH);
-    }
-
-    /**
-     *
+     * Creates playing field.
      */
     private void createPlayingField() {
         fieldPanel = new JPanel();
@@ -198,21 +257,21 @@ public class SwingUI extends JFrame implements IUserInterface {
                                 5, 5, 5, 5),
                         BorderFactory.createBevelBorder(
                                 BevelBorder.LOWERED)
-                        )
-                );
+                )
+        );
 
         contentPanel.add(fieldPanel, BorderLayout.CENTER);
     }
 
     /**
-     *
+     * Creates info panel.
      */
     private void createInfoPanel() {
         infoPanel = new JPanel();
         infoPanel.setLayout(new BorderLayout());
         infoPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(
                 javax.swing.BorderFactory.createEmptyBorder(
-                        5,5,5,5),
+                        5, 5, 5, 5),
                 javax.swing.BorderFactory.createBevelBorder(
                         javax.swing.border.BevelBorder.LOWERED)));
 
@@ -224,7 +283,7 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
-     *
+     * Creates remaining mines panel.
      */
     private void createRemainingMinesPanel() {
         remainingMinesPanel = new JPanel();
@@ -248,7 +307,7 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
-     *
+     * Updates remaining mines label.
      */
     private void updateRemainingMinesLabel() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -260,7 +319,7 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
-     *
+     * Creates elapsed time panel.
      */
     private void createElapsedTimePanel() {
         initTimer();
@@ -286,7 +345,7 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
-     *
+     * Inits timer.
      */
     private void initTimer() {
         ActionListener actionListener = new ActionListener() {
@@ -303,7 +362,7 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
-     *
+     * Updates elapsed time label.
      */
     private void updateElapsedTimeLabel() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -315,7 +374,7 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
-     *
+     * Creates new game button.
      */
     private void createNewGameButton() {
         newGameButtonPanel = new JPanel();
@@ -329,7 +388,7 @@ public class SwingUI extends JFrame implements IUserInterface {
                 new ImageIcon(getClass().getResource("/img/smile.gif")));
         newGameButton.setFocusPainted(false);
         newGameButton.setFocusable(false);
-        newGameButton.setMargin(new Insets(2,2,2,2));
+        newGameButton.setMargin(new Insets(2, 2, 2, 2));
         newGameButton.setMaximumSize(new Dimension(50, 50));
         newGameButton.setMinimumSize(new Dimension(50, 50));
         newGameButton.setPreferredSize(new Dimension(50, 50));
@@ -345,9 +404,29 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
+     * Creates progress bar.
+     */
+    private void createProgressBar() {
+        progressBar = new JProgressBar();
+        progressBar.setBorder(BorderFactory.createEtchedBorder());
+        add(progressBar, BorderLayout.SOUTH);
+        progressBar.setStringPainted(true);
+    }
+
+    /**
+     * Update progress bar.
+     */
+    private void updateProgressBar() {
+        int diff = field.getMineCount() - field.getRemainingMineCount();
+        int percent = (diff * 100) / field.getMineCount();
+
+        progressBar.setValue(percent);
+    }
+
+    /**
+     * Creates mouse listener for playing field.
      *
-     *
-     * @return
+     * @return mouse listener for playing field
      */
     private MouseListener createFieldMouseListener() {
         MouseListener mouseListener = new MouseListener() {
@@ -418,7 +497,7 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
-     *
+     * Starts new game.
      *
      * @param field field of mines and clues
      */
@@ -446,7 +525,7 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
-     *
+     * Updates GUI.
      */
     @Override
     public void update() {
@@ -463,6 +542,6 @@ public class SwingUI extends JFrame implements IUserInterface {
 
         updateRemainingMinesLabel();
         updateElapsedTimeLabel();
+        updateProgressBar();
     }
-
 }
