@@ -149,6 +149,26 @@ public class Field {
     }
 
     /**
+     * Returns number of tiles in the selected state
+     *
+     * @param state state of tile
+     * @return number of tiles in the selected state
+     */
+    public int getNumberOf(Tile.State state) {
+        int num = 0;
+
+        for (int i = 0; i < rowCount; ++i) {
+            for (int j = 0; j < columnCount; ++j) {
+                if (tiles[i][j].getState() == state) {
+                    ++num;
+                }
+            }
+        }
+
+        return num;
+    }
+
+    /**
      * Generates playing field.
      */
     private void generate() {
@@ -202,26 +222,6 @@ public class Field {
         int remainingTilesCount = allTilesCount - getNumberOf(Tile.State.OPEN);
 
         return (remainingTilesCount == mineCount);
-    }
-
-    /**
-     * Returns number of tiles in the selected state
-     *
-     * @param state state of tile
-     * @return number of tiles in the selected state
-     */
-    private int getNumberOf(Tile.State state) {
-        int num = 0;
-
-        for (int i = 0; i < rowCount; ++i) {
-            for (int j = 0; j < columnCount; ++j) {
-                if (tiles[i][j].getState() == state) {
-                    ++num;
-                }
-            }
-        }
-
-        return num;
     }
 
     /**

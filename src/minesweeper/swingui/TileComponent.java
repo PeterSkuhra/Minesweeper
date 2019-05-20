@@ -131,23 +131,40 @@ public class TileComponent extends JLabel {
     }
 
     /**
-     *
+     * Updates playing field after victory.
+     */
+    public void updateSolvedStyle() {
+        if (tile instanceof Mine) {
+            switch (tile.getState()) {
+                case MARKED:
+                    setBackground(Color.GREEN);
+                    break;
+
+                case CLOSED:
+                    setBackground(Color.ORANGE);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Updates playing field after defeat.
      */
     public void updateFailedStyle() {
-        switch (tile.getState()) {
-            case CLOSED:
-                if (tile instanceof Mine) {
+        if (tile instanceof Mine) {
+            switch (tile.getState()) {
+                case MARKED:
+                    setBackground(Color.GREEN);
+                    break;
+
+                case CLOSED:
                     setBorder(BorderFactory.createBevelBorder(
                             BevelBorder.LOWERED));
                     setBackground(Color.ORANGE);
                     setIcon(MINE_ICON);
-                }
-                break;
-
-            case MARKED:
-                if (!(tile instanceof Mine)) {
-                    setBackground(Color.GREEN);
-                }
+                    break;
+            }
         }
     }
+
 }

@@ -5,6 +5,7 @@ import minesweeper.Minesweeper;
 import minesweeper.Settings;
 import minesweeper.core.Field;
 import minesweeper.core.GameState;
+import minesweeper.core.Tile;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -414,13 +415,16 @@ public class SwingUI extends JFrame implements IUserInterface {
     }
 
     /**
-     * Update progress bar.
+     * Updates progress bar.
      */
     private void updateProgressBar() {
-        int diff = field.getMineCount() - field.getRemainingMineCount();
-        int percent = (diff * 100) / field.getMineCount();
+        int allTilesCount = field.getRowCount() * field.getColumnCount();
+        int clearTilesCount = allTilesCount - field.getMineCount();
+        int openTilesCount = field.getNumberOf(Tile.State.OPEN);
 
-        progressBar.setValue(percent);
+        int openTilesPercent = (openTilesCount * 100) / clearTilesCount;
+
+        progressBar.setValue(openTilesPercent);
     }
 
     /**
@@ -537,6 +541,9 @@ public class SwingUI extends JFrame implements IUserInterface {
 
             if (field.getState() == GameState.FAILED) {
                 tileComponent.updateFailedStyle();
+            }
+            else if (field.getState() == GameState.SOLVED) {
+                tileComponent.updateSolvedStyle();
             }
         }
 
