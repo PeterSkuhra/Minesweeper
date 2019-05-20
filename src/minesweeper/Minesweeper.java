@@ -18,8 +18,8 @@ public class Minesweeper {
     /**
      * Default user interface
      */
-    //private static final String DEFAULT_UI = "console";
-    private static final String DEFAULT_UI = "swing";
+    //private static String DEFAULT_UI = "console";
+    private static String DEFAULT_UI = "swing";
 
     /**
      * User interface.
@@ -52,8 +52,7 @@ public class Minesweeper {
     private Minesweeper() {
         instance = this;
 
-        //setting = Settings.load();
-        setting = Settings.BEGINNER; //TODO: fix load !!!
+        setting = Settings.load();
 
         userInterface = create(DEFAULT_UI);
         bestTimes = new BestTimes();

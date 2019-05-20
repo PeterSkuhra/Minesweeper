@@ -81,6 +81,16 @@ public class SwingUI extends JFrame implements IUserInterface {
     private JMenu gameMenu;
 
     /**
+     * Help menu in menu bar.
+     */
+    private JMenu helpMenu;
+
+    /**
+     * About menu item in help menu.
+     */
+    private JMenuItem aboutMenuItem;
+
+    /**
      * New menu item in game menu.
      */
     private JMenuItem newMenuItem;
@@ -146,7 +156,7 @@ public class SwingUI extends JFrame implements IUserInterface {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        createGameMenuBar();
+        createMenuBar();
         createProgressBar();
         createPlayingField();
         createInfoPanel();
@@ -156,12 +166,19 @@ public class SwingUI extends JFrame implements IUserInterface {
         setVisible(true);
     }
 
-    /**
-     * Creates menu bar in main window.
-     */
-    private void createGameMenuBar() {
+    private void createMenuBar() {
         jMenuBar = new JMenuBar();
 
+        createGameMenu();
+        createHelpMenu();
+
+        setJMenuBar(jMenuBar);
+    }
+
+    /**
+     * Creates game menu in menu bar.
+     */
+    private void createGameMenu() {
         gameMenu = new JMenu("Game");
         gameMenu.setMnemonic(KeyEvent.VK_F);
 
@@ -194,7 +211,35 @@ public class SwingUI extends JFrame implements IUserInterface {
         gameMenu.add(exitMenuItem);
 
         jMenuBar.add(gameMenu);
-        setJMenuBar(jMenuBar);
+    }
+
+    /**
+     * Creates help menu in menu bar.
+     */
+    private void createHelpMenu() {
+        helpMenu = new JMenu("Help");
+        helpMenu.setMnemonic(KeyEvent.VK_F);
+
+        aboutMenuItem = new JMenuItem("About");
+        aboutMenuItem.setMnemonic(KeyEvent.VK_F);
+
+        String about =
+                "Minesweeper 1.0\n" +
+                "Peter Skuhra\n" +
+                "AIA DKM\n" +
+                "OOP in Java\n" +
+                "2018/2019";
+
+        aboutMenuItem.addActionListener(actionEvent -> {
+            JOptionPane.showMessageDialog(
+                    null,
+                    about,
+                    "About",
+                    JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        helpMenu.add(aboutMenuItem);
+        jMenuBar.add(helpMenu);
     }
 
     /**
@@ -390,8 +435,6 @@ public class SwingUI extends JFrame implements IUserInterface {
         newGameButton.setFocusPainted(false);
         newGameButton.setFocusable(false);
         newGameButton.setMargin(new Insets(2, 2, 2, 2));
-        newGameButton.setMaximumSize(new Dimension(50, 50));
-        newGameButton.setMinimumSize(new Dimension(50, 50));
         newGameButton.setPreferredSize(new Dimension(50, 50));
 
         newGameButton.addActionListener(new ActionListener() {
