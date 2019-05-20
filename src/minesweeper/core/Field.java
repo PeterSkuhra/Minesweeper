@@ -44,7 +44,7 @@ public class Field {
         this.columnCount = columnCount;
         this.mineCount = mineCount;
         tiles = new Tile[rowCount][columnCount];
-        generate();
+        generatePlayingField();
     }
 
     /**
@@ -171,7 +171,7 @@ public class Field {
     /**
      * Generates playing field.
      */
-    private void generate() {
+    private void generatePlayingField() {
         generateMines();
         fillWithClues();
     }

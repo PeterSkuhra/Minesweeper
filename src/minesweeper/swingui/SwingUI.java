@@ -175,10 +175,8 @@ public class SwingUI extends JFrame implements IUserInterface {
      */
     private void createGameMenu() {
         gameMenu = new JMenu("Game");
-        gameMenu.setMnemonic(KeyEvent.VK_F);
 
         newMenuItem = new JMenuItem("New");
-        newMenuItem.setMnemonic(KeyEvent.VK_F);
         newMenuItem.addActionListener(actionEvent -> {
             Minesweeper.getInstance().newGame();
         });
@@ -186,7 +184,6 @@ public class SwingUI extends JFrame implements IUserInterface {
         createDifficultyGroup();
 
         exitMenuItem = new JMenuItem("Exit");
-        exitMenuItem.setMnemonic(KeyEvent.VK_F);
         exitMenuItem.setToolTipText("Exit application");
         exitMenuItem.addActionListener(actionEvent -> {
             System.exit(0);
@@ -208,10 +205,8 @@ public class SwingUI extends JFrame implements IUserInterface {
      */
     private void createHelpMenu() {
         helpMenu = new JMenu("Help");
-        helpMenu.setMnemonic(KeyEvent.VK_F);
 
         aboutMenuItem = new JMenuItem("About");
-        aboutMenuItem.setMnemonic(KeyEvent.VK_F);
 
         String about =
                 "Minesweeper 1.0\n" +
@@ -237,9 +232,9 @@ public class SwingUI extends JFrame implements IUserInterface {
      */
     private void createDifficultyGroup() {
         difficultyGroup = new ButtonGroup();
+
         beginnerRadioButtonMenuItem =
                 new JRadioButtonMenuItem("Beginner");
-        beginnerRadioButtonMenuItem.setSelected(true);
         intermediateRadioButtonMenuItem =
                 new JRadioButtonMenuItem("Intermediate");
         expertRadioButtonMenuItem =

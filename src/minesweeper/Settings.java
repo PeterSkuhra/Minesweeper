@@ -105,7 +105,7 @@ public class Settings implements Serializable {
             return (Settings) objectInputStream.readObject();
         }
         catch (IOException | ClassNotFoundException e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
 
             return BEGINNER;
         }
@@ -128,7 +128,7 @@ public class Settings implements Serializable {
             fileOutputStream.close();
         }
         catch (IOException e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -139,7 +139,13 @@ public class Settings implements Serializable {
      */
     @Override
     public int hashCode() {
-        return (rowCount * columnCount * mineCount);
+        int hash = 17;
+
+        hash *= 23 + rowCount;
+        hash *= 23 + columnCount;
+        hash *= 23 + mineCount;
+
+        return hash;
     }
 
     /**
@@ -156,8 +162,8 @@ public class Settings implements Serializable {
 
         Settings settings = (Settings) o;
 
-        return ((settings.getRowCount() == rowCount) &&
-                (settings.getColumnCount() == columnCount) &&
-                (settings.getMineCount() == mineCount));
+        return ((settings.rowCount == rowCount) &&
+                (settings.columnCount == columnCount) &&
+                (settings.mineCount == mineCount));
     }
 }
