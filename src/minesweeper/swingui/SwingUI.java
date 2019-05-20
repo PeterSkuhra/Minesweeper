@@ -344,10 +344,10 @@ public class SwingUI extends JFrame implements IUserInterface {
         remainingMinesLabel.setForeground(Color.GREEN);
         remainingMinesLabel.setHorizontalAlignment(SwingConstants.CENTER);
         remainingMinesLabel.setText("888");
-        remainingMinesLabel.setMaximumSize(new Dimension(50, 30));
-        remainingMinesLabel.setMinimumSize(new Dimension(50, 30));
+        remainingMinesLabel.setMaximumSize(new Dimension(80, 30));
+        remainingMinesLabel.setMinimumSize(new Dimension(80, 30));
         remainingMinesLabel.setOpaque(true);
-        remainingMinesLabel.setPreferredSize(new Dimension(50, 30));
+        remainingMinesLabel.setPreferredSize(new Dimension(80, 30));
 
         remainingMinesPanel.add(remainingMinesLabel, BorderLayout.CENTER);
     }
@@ -381,11 +381,11 @@ public class SwingUI extends JFrame implements IUserInterface {
         elapsedTimeLabel.setFont(new Font("DialogInput", 1, 24));
         elapsedTimeLabel.setForeground(Color.GREEN);
         elapsedTimeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        elapsedTimeLabel.setText("888");
-        elapsedTimeLabel.setMaximumSize(new Dimension(50, 30));
-        elapsedTimeLabel.setMinimumSize(new Dimension(50, 30));
+        elapsedTimeLabel.setText("88:88");
+        elapsedTimeLabel.setMaximumSize(new Dimension(80, 30));
+        elapsedTimeLabel.setMinimumSize(new Dimension(80, 30));
         elapsedTimeLabel.setOpaque(true);
-        elapsedTimeLabel.setPreferredSize(new Dimension(50, 30));
+        elapsedTimeLabel.setPreferredSize(new Dimension(80, 30));
 
         elapsedTimePanel.add(elapsedTimeLabel, BorderLayout.CENTER);
     }
@@ -412,9 +412,12 @@ public class SwingUI extends JFrame implements IUserInterface {
      */
     private void updateElapsedTimeLabel() {
         StringBuilder stringBuilder = new StringBuilder();
-        new Formatter(stringBuilder).format(
-                "%03d",
-                Minesweeper.getInstance().getPlayingSeconds());
+
+        int rawSeconds = Minesweeper.getInstance().getPlayingSeconds();
+        int minutes = rawSeconds / 60;
+        int seconds = rawSeconds % 60;
+
+        new Formatter(stringBuilder).format("%02d:%02d", minutes, seconds);
 
         elapsedTimeLabel.setText(stringBuilder.toString());
     }

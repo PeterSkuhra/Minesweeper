@@ -29,9 +29,9 @@ public class TileComponent extends JLabel {
                     Color.BLUE,
                     Color.RED,
                     Color.GREEN,
-                    Color.CYAN,
                     Color.MAGENTA,
                     Color.ORANGE,
+                    Color.CYAN,
                     Color.PINK,
                     Color.YELLOW
             };
