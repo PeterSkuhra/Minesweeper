@@ -116,11 +116,6 @@ public class SwingUI extends JFrame implements IUserInterface {
     private JRadioButtonMenuItem expertRadioButtonMenuItem;
 
     /**
-     * Best times item in game menu.
-     */
-    private JMenuItem bestTimesMenuItem;
-
-    /**
      * Exit game item in game menu.
      */
     private JMenuItem exitMenuItem;
@@ -190,9 +185,6 @@ public class SwingUI extends JFrame implements IUserInterface {
 
         createDifficultyGroup();
 
-        bestTimesMenuItem = new JMenuItem("Best times");
-        bestTimesMenuItem.setMnemonic(KeyEvent.VK_F);
-
         exitMenuItem = new JMenuItem("Exit");
         exitMenuItem.setMnemonic(KeyEvent.VK_F);
         exitMenuItem.setToolTipText("Exit application");
@@ -205,8 +197,6 @@ public class SwingUI extends JFrame implements IUserInterface {
         gameMenu.add(beginnerRadioButtonMenuItem);
         gameMenu.add(intermediateRadioButtonMenuItem);
         gameMenu.add(expertRadioButtonMenuItem);
-        gameMenu.addSeparator();
-        gameMenu.add(bestTimesMenuItem);
         gameMenu.addSeparator();
         gameMenu.add(exitMenuItem);
 

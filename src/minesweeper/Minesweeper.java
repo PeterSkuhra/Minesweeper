@@ -7,6 +7,10 @@ import minesweeper.core.Field;
 
 /**
  * Main application class.
+ *
+ * @author      Peter Skuhra
+ * @version     1.0
+ * @since       20.5.2019
  */
 public class Minesweeper {
 
@@ -37,11 +41,6 @@ public class Minesweeper {
     private Stopwatch stopwatch;
 
     /**
-     * Best times
-     */
-    private BestTimes bestTimes;
-
-    /**
      * Settings object
      */
     private Settings setting;
@@ -55,7 +54,6 @@ public class Minesweeper {
         setting = Settings.load();
 
         userInterface = create(DEFAULT_UI);
-        bestTimes = new BestTimes();
         stopwatch = new Stopwatch();
     }
 
@@ -110,15 +108,6 @@ public class Minesweeper {
      */
     public int getPlayingSeconds() {
         return stopwatch.elapsedTimeSeconds();
-    }
-
-    /**
-     * Returns bestTimes object
-     *
-     * @return best times
-     */
-    public BestTimes getBestTimes() {
-        return bestTimes;
     }
 
     /**

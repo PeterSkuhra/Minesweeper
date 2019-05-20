@@ -6,9 +6,9 @@ import static org.junit.Assert.*;
 
 public class FieldTest {
 
-    static final int ROWS = 9;
-    static final int COLUMNS = 9;
-    static final int MINES = 10;
+    static final int ROWS = 24;
+    static final int COLUMNS = 30;
+    static final int MINES = (ROWS - 1) * (COLUMNS - 1);
 
     @Test
     public void isSolved() {
