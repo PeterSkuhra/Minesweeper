@@ -5,7 +5,9 @@ package minesweeper.core;
  */
 public class Clue  extends Tile {
 
-    /** Value of the clue. */
+    /**
+     * Value of the clue.
+     */
     private final int value;
     
     /**
@@ -17,7 +19,7 @@ public class Clue  extends Tile {
     }
 
     /**
-     * Returns value of the clue
+     * Returns value of the clue.
      *
      * @return value of the clue
      */

@@ -52,6 +52,7 @@ public class ConsoleUI implements minesweeper.IUserInterface {
     public ConsoleUI() {
         input = new BufferedReader(new InputStreamReader(System.in));
 
+        //TODO: Edit pattern to accept X for exit game.
         pattern = Pattern.compile("([oO]|[mM])([a-iA-I])([0-8])");
     }
 

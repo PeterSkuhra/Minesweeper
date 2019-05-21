@@ -30,7 +30,7 @@ public class Field {
     /**
      * Game state.
      */
-    private GameState state = GameState.PLAYING;
+    private GameState state;
 
     /**
      * Constructor.
@@ -43,12 +43,15 @@ public class Field {
         this.rowCount = rowCount;
         this.columnCount = columnCount;
         this.mineCount = mineCount;
+
         tiles = new Tile[rowCount][columnCount];
+
         generatePlayingField();
+        state = GameState.PLAYING;
     }
 
     /**
-     * Returns chosen tile
+     * Returns chosen tile.
      *
      * @param row    row number
      * @param column column number
@@ -59,7 +62,7 @@ public class Field {
     }
 
     /**
-     * Returns row count
+     * Returns row count.
      *
      * @return row count
      */
@@ -68,7 +71,7 @@ public class Field {
     }
 
     /**
-     * Returns column count
+     * Returns column count.
      *
      * @return column count
      */
@@ -77,7 +80,7 @@ public class Field {
     }
 
     /**
-     * Returns mine count
+     * Returns mine count.
      *
      * @return mine count
      */
@@ -86,7 +89,7 @@ public class Field {
     }
 
     /**
-     * Returns state of game
+     * Returns state of game.
      *
      * @return state of game
      */
@@ -96,6 +99,7 @@ public class Field {
 
     /**
      * Opens tile at specified indexes.
+     * Recursion.
      *
      * @param row    row number
      * @param column column number
@@ -138,7 +142,7 @@ public class Field {
     }
 
     /**
-     * Returns count of remaining mines in field
+     * Returns count of remaining mines in field.
      *
      * @return  remaining mine count
      */
@@ -149,7 +153,7 @@ public class Field {
     }
 
     /**
-     * Returns number of tiles in the selected state
+     * Returns number of tiles in the selected state.
      *
      * @param state state of tile
      * @return number of tiles in the selected state
@@ -225,7 +229,8 @@ public class Field {
     }
 
     /**
-     * Returns number of adjacent mines for a tile at specified position in the field.
+     * Returns number of adjacent mines for a tile at specified position
+     * in the field.
      *
      * @param row    row number.
      * @param column column number.
@@ -252,7 +257,7 @@ public class Field {
     }
 
     /**
-     * Open adjacent tiles for a tile at specified position in the field
+     * Open adjacent tiles for a tile at specified position in the field.
      *
      * @param row row number
      * @param column column number

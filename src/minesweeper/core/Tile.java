@@ -26,7 +26,14 @@ public abstract class Tile {
     /**
      * Tile state.
      */
-    private State state = State.CLOSED;
+    private State state;
+
+    /**
+     * Constructor.
+     */
+    public Tile() {
+        state = State.CLOSED;
+    }
 
     /**
      * Returns current state of this tile.

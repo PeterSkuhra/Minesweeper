@@ -15,12 +15,12 @@ import minesweeper.core.Field;
 public class Minesweeper {
 
     /**
-     * Single instance of Minesweeper
+     * Single instance of Minesweeper.
      */
     private static Minesweeper instance;
 
     /**
-     * Default user interface
+     * Default user interface.
      */
     //private static String DEFAULT_UI = "console";
     private static String DEFAULT_UI = "swing";
@@ -36,12 +36,12 @@ public class Minesweeper {
     private Field field;
 
     /**
-     * Stopwatch
+     * Stopwatch.
      */
     private Stopwatch stopwatch;
 
     /**
-     * Settings object
+     * Settings object.
      */
     private Settings setting;
 
@@ -53,17 +53,17 @@ public class Minesweeper {
 
         setting = Settings.load();
 
-        userInterface = create(DEFAULT_UI);
+        userInterface = createUserInterface(DEFAULT_UI);
         stopwatch = new Stopwatch();
     }
 
     /**
-     * Create user interface to specified name
+     * Create user interface to specified name.
      *
      * @param name name of user interface
      * @return user interface
      */
-    private IUserInterface create(String name) {
+    private IUserInterface createUserInterface(String name) {
         switch(name) {
             case "swing":
                 return new SwingUI();
@@ -77,7 +77,7 @@ public class Minesweeper {
     }
 
     /**
-     * Returns single instance of Minesweeper
+     * Returns single instance of Minesweeper.
      *
      * @return single instance of Minesweeper
      */
@@ -90,7 +90,7 @@ public class Minesweeper {
     }
 
     /**
-     * Starts new game
+     * Starts new game.
      */
     public void newGame() {
         field = new Field(setting.getRowCount(),
@@ -102,7 +102,7 @@ public class Minesweeper {
     }
 
     /**
-     * Return playing seconds
+     * Return playing seconds.
      *
      * @return playing seconds
      */
